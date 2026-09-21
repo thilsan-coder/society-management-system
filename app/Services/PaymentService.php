@@ -150,6 +150,6 @@ class PaymentService
             );
 
             return $payment;
-        }
+        });
     }
 }
