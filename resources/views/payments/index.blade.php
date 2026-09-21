@@ -5,28 +5,28 @@
 @section('content')
 <div x-data="paymentModalData()" class="space-y-6">
     <!-- Height-Matched Toolbar -->
-    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <form action="{{ route('payments.index') }}" method="GET" class="w-full md:w-auto flex flex-wrap items-center gap-3">
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search receipt no, member..."
-                class="h-10 px-3 border border-slate-300 rounded-lg text-sm shadow-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 w-full md:w-64">
+                class="h-10 px-3 border border-slate-300 rounded-xl text-xs shadow-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 w-full md:w-64 placeholder-slate-400">
 
-            <button type="submit" class="h-10 px-4 bg-slate-800 text-white font-medium rounded-lg text-sm hover:bg-slate-900 transition-colors shadow-sm">
+            <button type="submit" class="h-10 px-4 bg-slate-900 text-white font-bold rounded-xl text-xs hover:bg-slate-800 transition-all shadow-sm">
                 Filter
             </button>
         </form>
 
         @can('create', App\Models\Payment::class)
-        <button @click="openModal()" type="button" class="h-10 px-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg text-sm shadow flex items-center transition-colors whitespace-nowrap">
+        <button @click="openModal()" type="button" class="h-10 px-4 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl text-xs shadow-md shadow-teal-600/10 flex items-center transition-all whitespace-nowrap">
             + Record Payment & Issue Receipt
         </button>
         @endcan
     </div>
 
-    <!-- Table (5 per page) -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <!-- Table -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-                <thead class="bg-slate-50 text-slate-500 font-semibold text-xs uppercase tracking-wider">
+            <table class="min-w-full divide-y divide-slate-200 text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
                     <tr>
                         <th class="px-6 py-3.5">Receipt Number</th>
                         <th class="px-6 py-3.5">Member Name & No</th>
@@ -47,21 +47,21 @@
                             <p class="font-bold text-slate-900">{{ $payment->member?->user?->name }}</p>
                             <p class="text-xs font-mono text-slate-400">{{ $payment->member?->member_number }}</p>
                         </td>
-                        <td class="px-6 py-4 text-xs text-slate-600">
+                        <td class="px-6 py-4 text-xs text-slate-600 font-medium">
                             {{ $payment->payment_date ? $payment->payment_date->format('d M Y') : 'N/A' }}
                         </td>
                         <td class="px-6 py-4 text-xs">
-                            <span class="px-2 py-0.5 font-bold uppercase rounded bg-slate-100 text-slate-700">{{ $payment->payment_type }}</span>
-                            <span class="ml-1 uppercase text-slate-500 font-semibold">{{ $payment->payment_method }}</span>
+                            <span class="px-2 py-0.5 font-extrabold uppercase rounded bg-slate-100 text-slate-700 border border-slate-200 text-[10px]">{{ $payment->payment_type }}</span>
+                            <span class="ml-1 uppercase text-slate-500 font-semibold text-[10px]">{{ $payment->payment_method }}</span>
                         </td>
-                        <td class="px-6 py-4 font-mono text-emerald-600 font-bold text-base">
+                        <td class="px-6 py-4 font-mono text-emerald-600 font-bold text-sm">
                             Rs {{ number_format($payment->total_amount, 2) }}
                         </td>
-                        <td class="px-6 py-4 text-xs text-slate-500">
+                        <td class="px-6 py-4 text-xs text-slate-500 font-medium">
                             {{ $payment->treasurer?->name }}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="{{ route('payments.pdf', $payment) }}" class="h-8 px-3 inline-flex items-center bg-teal-50 hover:bg-teal-100 text-teal-700 rounded font-bold text-xs border border-teal-200">
+                            <a href="{{ route('payments.pdf', $payment) }}" class="h-8 px-3 inline-flex items-center bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-lg font-bold text-xs border border-teal-200 transition-colors">
                                 Download PDF 📄
                             </a>
                         </td>
@@ -83,12 +83,12 @@
     </div>
 
     <!-- Explicit Payment Allocation Modal -->
-    <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl p-6 max-w-2xl w-full shadow-2xl space-y-6 border border-slate-200 my-8">
+    <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl p-6 max-w-2xl w-full shadow-2xl space-y-6 border border-slate-200 my-8">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div>
                     <h3 class="text-base font-bold text-slate-900">Record Explicit Payment & Issue Receipt</h3>
-                    <p class="text-xs text-slate-500">Select member and explicitly enter allocations for specific Santhas/Fines.</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Select member and explicitly enter allocations for specific Santhas/Fines.</p>
                 </div>
                 <button @click="showModal = false" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
             </div>
@@ -99,7 +99,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Select Member *</label>
-                        <select x-model="selectedMemberId" @change="fetchUnpaidItems()" name="member_id" required class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm bg-white">
+                        <select x-model="selectedMemberId" @change="fetchUnpaidItems()" name="member_id" required class="custom-select w-full h-10 px-3 border border-slate-300 rounded-xl text-xs bg-white text-slate-800">
                             <option value="">-- Select Member --</option>
                             @foreach($allMembers as $m)
                             <option value="{{ $m->id }}">{{ $m->user?->name }} ({{ $m->member_number }})</option>
@@ -109,7 +109,7 @@
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Payment Method *</label>
-                        <select name="payment_method" required class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm bg-white">
+                        <select name="payment_method" required class="custom-select w-full h-10 px-3 border border-slate-300 rounded-xl text-xs bg-white text-slate-800">
                             <option value="cash">Cash</option>
                             <option value="bank_transfer">Bank Transfer</option>
                             <option value="online">Online / UPI</option>
@@ -126,36 +126,36 @@
                 <!-- Explicit Allocations Breakdown -->
                 <div x-show="!loading && selectedMemberId" class="space-y-4">
                     <!-- Unpaid Santhas -->
-                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-3">
+                    <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50 space-y-3">
                         <h4 class="text-xs font-bold uppercase tracking-wider text-teal-800 border-b border-slate-200 pb-2">1. Monthly Santha Allocations</h4>
                         <template x-if="santhas.length === 0">
                             <p class="text-xs text-slate-400 italic">No unpaid Santhas found for this member.</p>
                         </template>
                         <template x-for="s in santhas" :key="s.id">
-                            <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 text-xs">
+                            <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200 text-xs">
                                 <span class="font-semibold text-slate-800" x-text="s.label"></span>
                                 <div class="flex items-center space-x-2">
-                                    <span class="text-slate-400">Rs</span>
+                                    <span class="text-slate-400 font-bold">Rs</span>
                                     <input type="number" :name="'santha_allocations[' + s.id + ']'" step="0.01" min="0" :max="s.remaining" placeholder="0.00"
-                                        class="h-8 w-28 px-2 border border-slate-300 rounded text-xs font-mono font-bold text-emerald-700">
+                                        class="h-8 w-28 px-2 border border-slate-300 rounded-lg text-xs font-mono font-bold text-emerald-700 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500">
                                 </div>
                             </div>
                         </template>
                     </div>
 
                     <!-- Unpaid Fines -->
-                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-3">
+                    <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50 space-y-3">
                         <h4 class="text-xs font-bold uppercase tracking-wider text-amber-800 border-b border-slate-200 pb-2">2. Fine Allocations</h4>
                         <template x-if="fines.length === 0">
                             <p class="text-xs text-slate-400 italic">No unpaid Fines found for this member.</p>
                         </template>
                         <template x-for="f in fines" :key="f.id">
-                            <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 text-xs">
+                            <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200 text-xs">
                                 <span class="font-semibold text-slate-800" x-text="f.label"></span>
                                 <div class="flex items-center space-x-2">
-                                    <span class="text-slate-400">Rs</span>
+                                    <span class="text-slate-400 font-bold">Rs</span>
                                     <input type="number" :name="'fine_allocations[' + f.id + ']'" step="0.01" min="0" :max="f.remaining" placeholder="0.00"
-                                        class="h-8 w-28 px-2 border border-slate-300 rounded text-xs font-mono font-bold text-rose-700">
+                                        class="h-8 w-28 px-2 border border-slate-300 rounded-lg text-xs font-mono font-bold text-rose-700 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500">
                                 </div>
                             </div>
                         </template>
@@ -164,18 +164,18 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Reference No / Txn ID</label>
-                            <input type="text" name="reference_number" placeholder="Optional" class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm">
+                            <input type="text" name="reference_number" placeholder="Optional" class="w-full h-10 px-3 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Notes</label>
-                            <input type="text" name="notes" placeholder="Optional notes" class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm">
+                            <input type="text" name="notes" placeholder="Optional notes" class="w-full h-10 px-3 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500">
                         </div>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
                     <button @click="showModal = false" type="button" class="h-10 px-4 text-xs font-semibold text-slate-500">Cancel</button>
-                    <button type="submit" :disabled="!selectedMemberId" class="h-10 px-6 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg text-sm shadow disabled:opacity-50">
+                    <button type="submit" :disabled="!selectedMemberId" class="h-10 px-6 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl text-xs shadow-md shadow-teal-600/10 disabled:opacity-50">
                         Record Explicit Payment & Generate Receipt
                     </button>
                 </div>

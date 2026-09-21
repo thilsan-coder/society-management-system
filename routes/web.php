@@ -15,12 +15,14 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SanthaController;
 use Illuminate\Support\Facades\Route;
 
-// Public Website Routes
+// Exact 8 Public Website Routes
 Route::get('/', [PublicWebsiteController::class, 'home'])->name('public.home');
 Route::get('/about', [PublicWebsiteController::class, 'about'])->name('public.about');
 Route::get('/committee', [PublicWebsiteController::class, 'committee'])->name('public.committee');
+Route::get('/public-members', [PublicWebsiteController::class, 'members'])->name('public.members');
+Route::get('/announcements', [PublicWebsiteController::class, 'announcements'])->name('public.announcements');
+Route::get('/activities', [PublicWebsiteController::class, 'activities'])->name('public.activities');
 Route::get('/public-media', [PublicWebsiteController::class, 'media'])->name('public.media');
-Route::get('/public-reports', [PublicWebsiteController::class, 'reports'])->name('public.reports');
 Route::get('/contact', [PublicWebsiteController::class, 'contact'])->name('public.contact');
 
 // Authentication Routes

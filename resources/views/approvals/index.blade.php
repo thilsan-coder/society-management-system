@@ -4,28 +4,28 @@
 
 @section('content')
 <div class="space-y-8">
-    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs text-amber-900 flex items-center justify-between">
+    <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200/80 text-xs text-amber-900 flex items-center justify-between">
         <div>
             <span class="font-bold">President Governance Queue:</span> Review submitted meetings, financial reports, and posters. Only President-approved items become eligible for public publication.
         </div>
     </div>
 
     <!-- Pending Meetings -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
-        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-2">1. Pending Meeting Submissions</h3>
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3">1. Pending Meeting Submissions</h3>
         <div class="space-y-3">
             @forelse($pendingMeetings as $meeting)
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
                 <div>
                     <h4 class="font-bold text-slate-900 text-sm">{{ $meeting->title }}</h4>
                     <p class="text-slate-500 mt-0.5">Submitted By: {{ $meeting->creator?->name }} &bull; Date: {{ \Carbon\Carbon::parse($meeting->meeting_date)->format('M d, Y') }} &bull; Venue: {{ $meeting->venue }}</p>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <a href="{{ route('meetings.show', $meeting) }}" class="h-8 px-3 inline-flex items-center bg-slate-200 text-slate-700 font-bold rounded">Review</a>
+                    <a href="{{ route('meetings.show', $meeting) }}" class="h-8 px-3 inline-flex items-center bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-colors">Review</a>
                     <form action="{{ route('meetings.transition', $meeting) }}" method="POST" class="inline-flex space-x-2">
                         @csrf
-                        <button type="submit" name="status" value="approved" class="h-8 px-3 bg-emerald-600 text-white font-bold rounded">Approve</button>
-                        <button type="submit" name="status" value="rejected" class="h-8 px-3 bg-rose-600 text-white font-bold rounded">Reject</button>
+                        <button type="submit" name="status" value="approved" class="h-8 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-sm transition-all">Approve</button>
+                        <button type="submit" name="status" value="rejected" class="h-8 px-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl shadow-sm transition-all">Reject</button>
                     </form>
                 </div>
             </div>
@@ -36,21 +36,21 @@
     </div>
 
     <!-- Pending Reports -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
-        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-2">2. Pending Monthly Financial Reports</h3>
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3">2. Pending Monthly Financial Reports</h3>
         <div class="space-y-3">
             @forelse($pendingReports as $report)
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
                 <div>
                     <h4 class="font-bold text-slate-900 text-sm">{{ $report->title }}</h4>
                     <p class="text-slate-500 mt-0.5">Submitted By: {{ $report->submitter?->name }} &bull; Period: {{ date('F Y', mktime(0,0,0, $report->month, 1, $report->year)) }}</p>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <a href="{{ route('reports.show', $report) }}" class="h-8 px-3 inline-flex items-center bg-slate-200 text-slate-700 font-bold rounded">Review Data</a>
+                    <a href="{{ route('reports.show', $report) }}" class="h-8 px-3 inline-flex items-center bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-colors">Review Data</a>
                     <form action="{{ route('reports.transition', $report) }}" method="POST" class="inline-flex space-x-2">
                         @csrf
-                        <button type="submit" name="status" value="approved" class="h-8 px-3 bg-emerald-600 text-white font-bold rounded">Approve</button>
-                        <button type="submit" name="status" value="rejected" class="h-8 px-3 bg-rose-600 text-white font-bold rounded">Reject</button>
+                        <button type="submit" name="status" value="approved" class="h-8 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-sm transition-all">Approve</button>
+                        <button type="submit" name="status" value="rejected" class="h-8 px-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl shadow-sm transition-all">Reject</button>
                     </form>
                 </div>
             </div>
@@ -61,21 +61,21 @@
     </div>
 
     <!-- Pending Media -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
-        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-2">3. Pending Poster & Activity Submissions</h3>
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3">3. Pending Poster & Activity Submissions</h3>
         <div class="space-y-3">
             @forelse($pendingMedia as $media)
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
                 <div>
                     <h4 class="font-bold text-slate-900 text-sm">{{ $media->title }}</h4>
                     <p class="text-slate-500 mt-0.5">Submitted By: {{ $media->submitter?->name }} &bull; Category: {{ strtoupper($media->media_type) }}</p>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <a href="{{ route('media.show', $media) }}" class="h-8 px-3 inline-flex items-center bg-slate-200 text-slate-700 font-bold rounded">Review Media</a>
+                    <a href="{{ route('media.show', $media) }}" class="h-8 px-3 inline-flex items-center bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-colors">Review Media</a>
                     <form action="{{ route('media.transition', $media) }}" method="POST" class="inline-flex space-x-2">
                         @csrf
-                        <button type="submit" name="status" value="approved" class="h-8 px-3 bg-emerald-600 text-white font-bold rounded">Approve</button>
-                        <button type="submit" name="status" value="rejected" class="h-8 px-3 bg-rose-600 text-white font-bold rounded">Reject</button>
+                        <button type="submit" name="status" value="approved" class="h-8 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-sm transition-all">Approve</button>
+                        <button type="submit" name="status" value="rejected" class="h-8 px-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl shadow-sm transition-all">Reject</button>
                     </form>
                 </div>
             </div>

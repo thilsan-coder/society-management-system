@@ -5,21 +5,21 @@
 @section('content')
 <div class="space-y-6">
     <!-- Height-Matched Toolbar -->
-    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <form action="{{ route('audit-logs.index') }}" method="GET" class="w-full md:w-auto flex items-center gap-3">
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search action, user..."
-                class="h-10 px-3 border border-slate-300 rounded-lg text-sm shadow-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 w-full md:w-64">
-            <button type="submit" class="h-10 px-4 bg-slate-800 text-white font-medium rounded-lg text-sm hover:bg-slate-900 transition-colors shadow-sm">
+                class="h-10 px-3 border border-slate-300 rounded-xl text-xs shadow-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 w-full md:w-64 placeholder-slate-400">
+            <button type="submit" class="h-10 px-4 bg-slate-900 text-white font-bold rounded-xl text-xs hover:bg-slate-800 transition-all shadow-sm">
                 Filter
             </button>
         </form>
     </div>
 
-    <!-- Table (5 per page) -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <!-- Table -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-                <thead class="bg-slate-50 text-slate-500 font-semibold text-xs uppercase tracking-wider">
+            <table class="min-w-full divide-y divide-slate-200 text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
                     <tr>
                         <th class="px-6 py-3.5">Timestamp</th>
                         <th class="px-6 py-3.5">User</th>
@@ -31,7 +31,7 @@
                 <tbody class="divide-y divide-slate-200 bg-white">
                     @forelse($logs as $log)
                     <tr class="hover:bg-slate-50/80 transition-colors text-xs">
-                        <td class="px-6 py-4 font-mono text-slate-500">
+                        <td class="px-6 py-4 font-mono text-slate-500 font-medium">
                             {{ $log->created_at->format('d/m/Y H:i:s') }}
                         </td>
                         <td class="px-6 py-4 font-bold text-slate-900">
